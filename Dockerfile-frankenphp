@@ -1,0 +1,12 @@
+FROM dunglas/frankenphp
+
+RUN install-php-extensions pcntl
+
+RUN apt-get update -y && apt-get upgrade -y && apt-get install git libssl-dev -y
+RUN pecl install mongodb \
+    && docker-php-ext-enable mongodb
+
+COPY . /app
+
+ENTRYPOINT ["php", "artisan", "octane:start", "--workers=64"]
+

@@ -1,0 +1,19 @@
+FROM php:8.2-fpm as app
+
+RUN echo 'pm = ondemand' >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
+    echo 'pm.max_children = 2000' >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
+    echo 'pm.max_requests = 0' >> /usr/local/etc/php-fpm.d/zz-docker.conf
+
+WORKDIR /var/www/
+COPY . .
+
+RUN apt-get update && apt-get install -y \
+    libzip-dev \
+    zip \
+    unzip \
+    git \
+    && docker-php-ext-install zip pdo_mysql
+
+RUN chown www-data:www-data -R storage bootstrap
+
+COPY .env.container .env
