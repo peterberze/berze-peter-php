@@ -4,15 +4,13 @@ services:
     app-1:
         build:
             context: .
-            dockerfile: Dockerfile
+            dockerfile: Dockerfile-frankenphp
         command: ["php", "artisan", "octane:start", "--port=8000", "--host=0.0.0.0"]
         container_name: app-1
         volumes:
             - ./:/var/www
         networks:
             - app-network
-        environment:
-            - OCTANE_SERVER=swoole
         deploy:
             resources:
                 limits:
@@ -21,15 +19,13 @@ services:
     app-2:
         build:
             context: .
-            dockerfile: Dockerfile
+            dockerfile: Dockerfile-frankenphp
         command: ["php", "artisan", "octane:start", "--port=8000", "--host=0.0.0.0"]
         container_name: app-2
         volumes:
             - ./:/var/www
         networks:
             - app-network
-        environment:
-            - OCTANE_SERVER=swoole
         deploy:
             resources:
                 limits:

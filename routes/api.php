@@ -40,16 +40,14 @@ Route::get('/jarmuvek', function () {
 });
 
 Route::get('/jarmuvek/{uuid}', function(string $uuid) {
-        return Vehicle::query()->where('uuid', '=', $uuid)->firstOrFail();
+    return Vehicle::query()->where('uuid', '=', $uuid)->firstOrFail();
 });
 
 Route::get('/kereses', function (VehicleIndexRequest $request) {
     $regex = new Regex($request->get('q'), 'i');
-    return response()->json(
-        Vehicle::query()
-            ->where('rendszam', 'regex', $regex)
-            ->orWhere('tulajdonos', 'regex', $regex)
-            ->orWhere('adatok', 'regex', $regex)
-            ->get()
-    );
+    return Vehicle::query()
+        ->where('rendszam', 'regex', $regex)
+        ->orWhere('tulajdonos', 'regex', $regex)
+        ->orWhere('adatok', 'regex', $regex)
+        ->get();
 });
